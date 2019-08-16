@@ -1,0 +1,14 @@
+[
+  {
+    "httpStatus": "OK",
+    "responseBody": "{\"id\":3,\"name\":\"name\",\"description\":\"description\"}",
+    "httpMethod": "GET",
+    "url": "/my-api/resource/3"
+  },
+  {
+    "httpStatus": "OK",
+    "responseBody": "{\"id\":4,\"name\":\"name\",\"description\":\"description\"}",
+    "httpMethod": "GET",
+    "url": "/my-api/resource/4"
+  }
+]
