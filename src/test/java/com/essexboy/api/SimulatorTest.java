@@ -43,7 +43,6 @@ public class SimulatorTest {
     @Test
     public void simulatorPostData() throws Exception {
         String jsonBody = IOUtils.toString(getClass().getResourceAsStream("/simulatorDef.json"), StandardCharsets.UTF_8.name());
-        System.out.println(jsonBody);
         mvc.perform(MockMvcRequestBuilders.post("/simulator").accept(MediaType.APPLICATION_JSON).content(jsonBody))
                 .andExpect(status().isOk());
 
