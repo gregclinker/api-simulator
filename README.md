@@ -10,18 +10,18 @@ Spring Boot API simulator
 
 ```json
 [
-    {
-        httpStatus: "OK",
-        responseBody: "{"id":2,"name":"name","description":"description"}",
-        httpMethod: "GET",
-        url: "/my-api/resource/2"
-    },
-    {
-        httpStatus: "OK",
-        responseBody: "{"id":1,"name":"name","description":"description"}",
-        httpMethod: "GET",
-        url: "/my-api/resource/1"
-    }
+  {
+    "httpStatus": "OK",
+    "responseBody": "{\"id\":2,\"name\":\"name\",\"description\":\"description\"}",
+    "httpMethod": "GET",
+    "url": "/my-api/resource/2"
+  },
+  {
+    "httpStatus": "OK",
+    "responseBody": "{\"id\":1,\"name\":\"name\",\"description\":\"description\"}",
+    "httpMethod": "GET",
+    "url": "/my-api/resource/1"
+  }
 ]
 ```
 
