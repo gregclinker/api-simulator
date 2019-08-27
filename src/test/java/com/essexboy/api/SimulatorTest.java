@@ -49,6 +49,13 @@ public class SimulatorTest {
         mvc.perform(MockMvcRequestBuilders.get("/my-api/resource/3").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string(equalTo("{\"id\":3,\"name\":\"name\",\"description\":\"description\"}")));
+
+        mvc.perform(MockMvcRequestBuilders.post("/my-api/resource/5")
+                .content("{\"id\":5 ,\"name\" :\"name\",\"description\":\"description\"}")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(equalTo("{\"id\":5,\"name\":\"name\",\"description\":\"description\"}")));
     }
 
     @Test

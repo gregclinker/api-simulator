@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.*;
@@ -31,15 +32,17 @@ public class SimulatorController {
      * Set up a simple example simulator
      */
     @PostConstruct
-    public void init() throws JsonProcessingException {
+    public void init() throws IOException {
         makeSimulatedHttpRequest(HttpMethod.GET, "/my-api/resource/1", null, HttpStatus.OK, makeExampleResource(1l, "name", "description"));
         makeSimulatedHttpRequest(HttpMethod.GET, "/my-api/resource/2", null, HttpStatus.OK, makeExampleResource(2l, "name", "description"));
+        makeSimulatedHttpRequest(HttpMethod.POST, "/my-api/resource/3", "{\"id\":3,\"name\":\"name\",\"description\":\"description\"}", HttpStatus.OK, makeExampleResource(3l, "name", "description"));
     }
 
     @RequestMapping("/**")
-    public ResponseEntity<String> simulate(HttpServletRequest request) {
+    public ResponseEntity<String> simulate(HttpServletRequest request) throws IOException {
 
-        String key = getKey(HttpMethod.valueOf(request.getMethod()), request.getRequestURI());
+        String key = getKey(request);
+
         logger.debug("looking up API for key: " + key);
 
         if (simulatedHttpRequestMap.get(key) == null) {
@@ -75,19 +78,19 @@ public class SimulatorController {
 
         simulatedHttpRequestMap = new HashMap<>();
         for (SimulatedHttpRequest simulatedHttpRequest : simulatedHttpRequests) {
-            simulatedHttpRequestMap.put(getKey(simulatedHttpRequest.getHttpMethod(), simulatedHttpRequest.getUrl()), simulatedHttpRequest);
+            simulatedHttpRequestMap.put(simulatedHttpRequest.getKey(), simulatedHttpRequest);
         }
         return new ResponseEntity<>(simulatedHttpRequests, HttpStatus.OK);
     }
 
-    private void makeSimulatedHttpRequest(HttpMethod httpMethod, String url, String requestBody, HttpStatus httpStatus, String responseBody) {
+    private void makeSimulatedHttpRequest(HttpMethod httpMethod, String url, String requestBody, HttpStatus httpStatus, String responseBody) throws IOException {
         SimulatedHttpRequest simulatedHttpRequest = new SimulatedHttpRequest();
         simulatedHttpRequest.setHttpMethod(httpMethod);
         simulatedHttpRequest.setUrl(url);
         simulatedHttpRequest.setHttpStatus(httpStatus);
         simulatedHttpRequest.setResponseBody(responseBody);
 
-        simulatedHttpRequestMap.put(getKey(httpMethod, url), simulatedHttpRequest);
+        simulatedHttpRequestMap.put(simulatedHttpRequest.getKey(), simulatedHttpRequest);
     }
 
     private String makeExampleResource(Long id, String name, String description) throws JsonProcessingException {

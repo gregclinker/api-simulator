@@ -12,15 +12,22 @@ Spring Boot API simulator
 [
   {
     "httpStatus": "OK",
-    "responseBody": "{\"id\":2,\"name\":\"name\",\"description\":\"description\"}",
+    "responseBody": "{\"id\":3,\"name\":\"name\",\"description\":\"description\"}",
     "httpMethod": "GET",
-    "url": "/my-api/resource/2"
+    "url": "/my-api/resource/3"
   },
   {
     "httpStatus": "OK",
-    "responseBody": "{\"id\":1,\"name\":\"name\",\"description\":\"description\"}",
+    "responseBody": "{\"id\":4,\"name\":\"name\",\"description\":\"description\"}",
     "httpMethod": "GET",
-    "url": "/my-api/resource/1"
+    "url": "/my-api/resource/4"
+  },
+  {
+    "httpStatus": "OK",
+    "requestBody": "{\"id\":5,\"name\":\"name\",\"description\":\"description\"}",
+    "responseBody": "{\"id\":5,\"name\":\"name\",\"description\":\"description\"}",
+    "httpMethod": "POST",
+    "url": "/my-api/resource/5"
   }
 ]
 ```
