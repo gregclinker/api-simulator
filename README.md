@@ -1,6 +1,8 @@
 # api-simulator
 
-Spring Boot API simulator
+Spring Boot API simulator.
+
+A REST API which can be configured, as an API, with for any given request/response behaviour.
 
 **To Build** - mvn clean installl
 
