@@ -4,11 +4,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.*;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -24,8 +23,13 @@ import static com.essexboy.api.SimulatedHttpRequest.getKey;
 @Api(value = "/simulator", consumes = "application/json", produces = "application/json")
 public class SimulatorController {
 
+    Logger logger = LoggerFactory.getLogger(SimulatorController.class);
+
     private Map<String, SimulatedHttpRequest> simulatedHttpRequestMap = new HashMap<>();
 
+    /**
+     * Set up a simple example simulator
+     */
     @PostConstruct
     public void init() throws JsonProcessingException {
         makeSimulatedHttpRequest(HttpMethod.GET, "/my-api/resource/1", null, HttpStatus.OK, makeExampleResource(1l, "name", "description"));
@@ -35,7 +39,9 @@ public class SimulatorController {
     @RequestMapping("/**")
     public ResponseEntity<String> simulate(HttpServletRequest request) {
 
-        String key = getKey(HttpMethod.valueOf(request.getMethod()), request.getPathInfo());
+        String key = getKey(HttpMethod.valueOf(request.getMethod()), request.getRequestURI());
+        logger.debug("looking up API for key: " + key);
+
         if (simulatedHttpRequestMap.get(key) == null) {
             return new ResponseEntity<>("key " + key + " not found", HttpStatus.BAD_REQUEST);
         }
