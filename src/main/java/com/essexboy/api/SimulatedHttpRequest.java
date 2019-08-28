@@ -41,7 +41,7 @@ public class SimulatedHttpRequest {
         return getKey(httpMethod, url, requestBody);
     }
 
-    public String getExample() {
+    public String getTryIt() {
         if (httpMethod == HttpMethod.GET) {
             return "http://localhost:8080" + url;
         }
