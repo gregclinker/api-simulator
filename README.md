@@ -39,9 +39,9 @@ A REST API which can be configured, as an API, with any given request/response b
 
 ```json
 {
-  id: 1,
-  name: "name",
-  description: "description"
+  "id": 1,
+  "name": "name",
+  "description": "description"
 }
 ```
 
