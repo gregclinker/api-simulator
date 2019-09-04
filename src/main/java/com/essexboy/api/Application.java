@@ -14,7 +14,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.Collections;
 
-@EnableSwagger2
 @SpringBootApplication
 public class Application {
 

@@ -35,6 +35,7 @@ public class SimulatedHttpRequest {
     private String responseBody;
     private HttpMethod httpMethod;
     private String url;
+    private KafkaMessage kafkaMessage;
 
     @JsonIgnore
     public String getKey() throws IOException {
