@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("noKafka")
-public class SimulatorTest {
+public class SimulatorControllerTest {
 
     @Autowired
     private MockMvc mvc;
@@ -44,7 +44,7 @@ public class SimulatorTest {
 
     @Test
     public void simulatorPostData() throws Exception {
-        String jsonBody = IOUtils.toString(getClass().getResourceAsStream("/simulatorDef.json"), StandardCharsets.UTF_8.name());
+        String jsonBody = IOUtils.toString(getClass().getResourceAsStream("/simulatorDefNew.json"), StandardCharsets.UTF_8.name());
         mvc.perform(MockMvcRequestBuilders.post("/simulator").accept(MediaType.APPLICATION_JSON).content(jsonBody))
                 .andExpect(status().isOk());
 

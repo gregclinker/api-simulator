@@ -1,0 +1,31 @@
+[
+  {
+    "httpStatus": "OK",
+    "responseBody": "{\"id\":1,\"name\":\"name\",\"description\":\"description 2\"}",
+    "httpMethod": "GET",
+    "url": "/my-api/resource/1"
+  },
+  {
+    "httpStatus": "OK",
+    "responseBody": "{\"id\":2,\"name\":\"name\",\"description\":\"description 2\"}",
+    "httpMethod": "GET",
+    "url": "/my-api/resource/2",
+    "kafkaMessage": {
+      "schema": "Payment",
+      "topic": "payments-topic",
+      "message": "{\"id\": \"283b4c55-7d54-4fc7-b538-7de0dfdd5931\", \"amount\": \"102\"}"
+    }
+  },
+  {
+    "httpStatus": "OK",
+    "requestBody": "{\"id\":3,\"name\":\"name\",\"description\":\"description 2\"}",
+    "responseBody": "{\"id\":3,\"name\":\"name\",\"description\":\"description 2\"}",
+    "httpMethod": "POST",
+    "url": "/my-api/resource/3",
+    "kafkaMessage": {
+      "schema": "Payment",
+      "topic": "payments-topic",
+      "message": "{\"id\": \"c3337504-c62e-4ba7-b311-a0a0401801ca\", \"amount\": \"102\"}"
+    }
+  }
+]

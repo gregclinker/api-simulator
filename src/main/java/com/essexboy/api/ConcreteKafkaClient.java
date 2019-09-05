@@ -25,6 +25,9 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.Properties;
+import java.util.UUID;
+
+import static com.essexboy.api.SimulatorService.SystemParameters.AVRO_SCHEMA_FILE;
 
 @Service
 @Profile("!noKafka")
@@ -55,12 +58,12 @@ public class ConcreteKafkaClient implements KafkaClient {
 
         producer = new KafkaProducer<>(producerProps);
 
-        if (System.getProperty("AVRO_SCHEMA") == null) {
+        if (System.getProperty(String.valueOf(AVRO_SCHEMA_FILE)) == null) {
             return;
         }
 
         try {
-            InputStream inputStream = new FileInputStream(new File(System.getProperty("AVRO_SCHEMA")));
+            InputStream inputStream = new FileInputStream(new File(System.getProperty(String.valueOf(AVRO_SCHEMA_FILE))));
             final String schemaJson = IOUtils.toString(inputStream, Charset.defaultCharset());
 
             schema = new Schema.Parser().parse(schemaJson);
@@ -76,7 +79,7 @@ public class ConcreteKafkaClient implements KafkaClient {
 
         try {
             if (schema == null) {
-                throw new RuntimeException("no AVRO schema specified, try starting with -Dspring.profiles.active=noKafka, or specify a schema file with -DAVRO_SCHEMA=Payment.avsc");
+                throw new RuntimeException("no AVRO schema specified, try starting with -Dspring.profiles.active=noKafka, or specify a schema file with -D" + AVRO_SCHEMA_FILE + "=Payment.avsc");
             }
             if (!kafkaMessage.getSchema().equals(schema.getName())) {
                 throw new RuntimeException("invalid schema, found " + schema.getName() + ", expected " + kafkaMessage.getSchema());

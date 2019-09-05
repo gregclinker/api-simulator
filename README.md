@@ -98,9 +98,15 @@ java -Dspring.profiles.active=noKafkavajar target/api-simulator-1.0.jar
 ]
 ```
 
+**To run a specified definition**
+The default simulator definition is taken from the file src/main/resources/simulatorDef.json to specify your own file:
+```shell script
+java -DDEFINITION_FILE=simulatorDe2.json -jar target/api-simulator-1.0.jar
+```
+
 **To run with Kafka and an [AVRO Schema](https://avro.apache.org/docs/1.8.2/gettingstartedjava.html)**
 ```shell script
-java -DAVRO_SCHEMA=target/test-classes/Payment.avsc -jar target/api-simulator-1.0.jar
+java -DAVRO_SCHEMA_FILE=target/test-classes/Payment.avsc -jar target/api-simulator-1.0.jar
 ```
 
 Default config for Kafka is set in the Spring Boot application.properties
