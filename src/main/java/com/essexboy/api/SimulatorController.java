@@ -3,7 +3,6 @@ package com.essexboy.api;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.annotations.Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,6 @@ import java.util.*;
 import static com.essexboy.api.SimulatedHttpRequest.getKey;
 
 @RestController
-@Api(value = "/simulator", consumes = "application/json", produces = "application/json")
 public class SimulatorController {
 
     Logger logger = LoggerFactory.getLogger(SimulatorController.class);

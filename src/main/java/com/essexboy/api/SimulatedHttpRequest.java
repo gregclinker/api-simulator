@@ -3,7 +3,6 @@ package com.essexboy.api;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,7 +20,6 @@ import java.io.IOException;
 @Setter
 @NoArgsConstructor
 @ToString
-@ApiModel(value = "SimulatedHttpRequest")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SimulatedHttpRequest {
 
@@ -36,18 +34,6 @@ public class SimulatedHttpRequest {
     private HttpMethod httpMethod;
     private String url;
     private KafkaMessage kafkaMessage;
-
-    @JsonIgnore
-    public String getKey() throws IOException {
-        return getKey(httpMethod, url, requestBody);
-    }
-
-    public String getTryIt() {
-        if (httpMethod == HttpMethod.GET) {
-            return "http://localhost:8080" + url;
-        }
-        return null;
-    }
 
     public static String getKey(HttpServletRequest request) throws IOException {
         if (request.getReader() != null) {
@@ -70,5 +56,17 @@ public class SimulatedHttpRequest {
         ObjectMapper objectMapper = new ObjectMapper();
         Object o = objectMapper.readValue(json, Object.class);
         return objectMapper.writeValueAsString(o);
+    }
+
+    @JsonIgnore
+    public String getKey() throws IOException {
+        return getKey(httpMethod, url, requestBody);
+    }
+
+    public String getTryIt() {
+        if (httpMethod == HttpMethod.GET) {
+            return "http://localhost:8080" + url;
+        }
+        return null;
     }
 }
