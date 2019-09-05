@@ -4,9 +4,15 @@ Spring Boot API simulator.
 
 A REST API which can be configured, as an API, with any given request/response behaviour.
 
-**To Build** - mvn clean installl
+**To Build**
+```shell script
+mvn clean installl
+```
 
-**To run with noKafka** - java -Dspring.profiles.active=noKafkavajar target/api-simulator-1.0.jar
+**To run without Kafka integration**
+```shell script
+java -Dspring.profiles.active=noKafkavajar target/api-simulator-1.0.jar
+```
 
 **To get the default simulator set-up** - GET:http://localhost:8080/simulator
 
@@ -92,7 +98,10 @@ A REST API which can be configured, as an API, with any given request/response b
 ]
 ```
 
-**To run with Kafka and an [AVRO Schema](https://avro.apache.org/docs/1.8.2/gettingstartedjava.html)** - java -DAVRO_SCHEMA=target/test-classes/Payment.avsc -jar target/api-simulator-1.0.jar
+**To run with Kafka and an [AVRO Schema](https://avro.apache.org/docs/1.8.2/gettingstartedjava.html)**
+```shell script
+java -DAVRO_SCHEMA=target/test-classes/Payment.avsc -jar target/api-simulator-1.0.jar
+```
 
 Default config for Kafka is set in the Spring Boot application.properties
 
