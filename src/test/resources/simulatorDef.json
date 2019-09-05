@@ -9,13 +9,23 @@
     "httpStatus": "OK",
     "responseBody": "{\"id\":4,\"name\":\"name\",\"description\":\"description\"}",
     "httpMethod": "GET",
-    "url": "/my-api/resource/4"
+    "url": "/my-api/resource/4",
+    "kafkaMessage": {
+      "schema": "Payment",
+      "topic": "payments-topic",
+      "message": "{\"id\": \"c0fe74ee-a948-49a5-b901-f189f66c659e\", \"amount\": \"102\"}"
+    }
   },
   {
     "httpStatus": "OK",
     "requestBody": "{\"id\":5,\"name\":\"name\",\"description\":\"description\"}",
     "responseBody": "{\"id\":5,\"name\":\"name\",\"description\":\"description\"}",
     "httpMethod": "POST",
-    "url": "/my-api/resource/5"
+    "url": "/my-api/resource/5",
+    "kafkaMessage": {
+      "schema": "Payment",
+      "topic": "payments-topic",
+      "message": "{\"id\": \"4a7ac8c7-9c30-45a2-8277-b026fc99bf44\", \"amount\": \"102\"}"
+    }
   }
 ]

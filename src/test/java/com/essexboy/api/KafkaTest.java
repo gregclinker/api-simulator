@@ -20,7 +20,7 @@ import static org.junit.Assert.assertNotNull;
 public class KafkaTest {
 
     @Autowired
-    private KafkaClient kafkaClient;
+    private ConcreteKafkaClient kafkaClient;
 
     @BeforeClass
     public static void setUp() {
