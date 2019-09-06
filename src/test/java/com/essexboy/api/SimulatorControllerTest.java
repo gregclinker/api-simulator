@@ -29,13 +29,6 @@ public class SimulatorControllerTest {
     private MockMvc mvc;
 
     @Test
-    public void healthCheck() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/healthcheck").accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().string(equalTo("it works!")));
-    }
-
-    @Test
     public void simulatorGetData() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/simulator").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

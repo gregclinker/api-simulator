@@ -1,6 +1,7 @@
 package com.essexboy.api;
 
 import io.confluent.kafka.schemaregistry.client.CachedSchemaRegistryClient;
+import io.confluent.kafka.schemaregistry.client.rest.exceptions.RestClientException;
 import io.confluent.kafka.serializers.AbstractKafkaAvroSerDeConfig;
 import io.confluent.kafka.serializers.KafkaAvroSerializer;
 import org.apache.avro.Schema;
@@ -22,10 +23,10 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.Properties;
-import java.util.UUID;
 
 import static com.essexboy.api.SimulatorService.SystemParameters.AVRO_SCHEMA_FILE;
 
@@ -43,10 +44,9 @@ public class ConcreteKafkaClient implements KafkaClient {
 
     private Producer<String, GenericRecord> producer;
     private Schema schema;
-    private boolean silent;
 
     @PostConstruct
-    public void init() {
+    public void init() throws IOException, RestClientException {
 
         Properties producerProps = new Properties();
         producerProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
@@ -58,10 +58,6 @@ public class ConcreteKafkaClient implements KafkaClient {
 
         producer = new KafkaProducer<>(producerProps);
 
-        if (System.getProperty(String.valueOf(AVRO_SCHEMA_FILE)) == null) {
-            return;
-        }
-
         try {
             InputStream inputStream = new FileInputStream(new File(System.getProperty(String.valueOf(AVRO_SCHEMA_FILE))));
             final String schemaJson = IOUtils.toString(inputStream, Charset.defaultCharset());
@@ -71,6 +67,7 @@ public class ConcreteKafkaClient implements KafkaClient {
             client.register(this.schema.getName() + "-topic", this.schema);
         } catch (Exception e) {
             logger.error("error initializing Kafka", e);
+            throw e;
         }
     }
 
@@ -120,9 +117,5 @@ public class ConcreteKafkaClient implements KafkaClient {
     @Override
     public Schema getSchema() {
         return schema;
-    }
-
-    public void setSilent(boolean silent) {
-        this.silent = silent;
     }
 }
