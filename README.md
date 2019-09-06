@@ -11,7 +11,7 @@ mvn clean installl
 
 **To run without Kafka integration**
 ```shell script
-java -Dspring.profiles.active=noKafkavajar target/api-simulator-1.0.jar
+java -Dspring.profiles.active=noKafka java -jar target/api-simulator-1.0.jar
 ```
 
 **To get the default simulator set-up** - GET:http://localhost:8080/simulator
