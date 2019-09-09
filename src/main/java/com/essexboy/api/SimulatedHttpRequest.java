@@ -8,8 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.apache.commons.io.IOUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 
@@ -23,16 +21,13 @@ import java.io.IOException;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SimulatedHttpRequest {
 
-    @Autowired
-    @JsonIgnore
-    private Environment environment;
-
     private HttpStatus httpStatus;
     private String requestBody;
     private String example;
     private String responseBody;
     private HttpMethod httpMethod;
     private String url;
+    private String tryIt;
     private KafkaMessage kafkaMessage;
 
     public static String getKey(HttpServletRequest request) throws IOException {
@@ -61,12 +56,5 @@ public class SimulatedHttpRequest {
     @JsonIgnore
     public String getKey() throws IOException {
         return getKey(httpMethod, url, requestBody);
-    }
-
-    public String getTryIt() {
-        if (httpMethod == HttpMethod.GET) {
-            return "http://localhost:8080" + url;
-        }
-        return null;
     }
 }

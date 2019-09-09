@@ -34,7 +34,7 @@ import static com.essexboy.api.SimulatorService.SystemParameters.AVRO_SCHEMA_FIL
 @Profile("!noKafka")
 public class ConcreteKafkaClient implements KafkaClient {
 
-    Logger logger = LoggerFactory.getLogger(ConcreteKafkaClient.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConcreteKafkaClient.class);
 
     @Value(value = "${kafka.bootstrapServers}")
     private String bootstrapServers;
@@ -66,7 +66,7 @@ public class ConcreteKafkaClient implements KafkaClient {
             CachedSchemaRegistryClient client = new CachedSchemaRegistryClient(schemaRegistryUrl, 20);
             client.register(this.schema.getName() + "-topic", this.schema);
         } catch (Exception e) {
-            logger.error("error initializing Kafka", e);
+            LOGGER.error("error initializing Kafka", e);
             throw e;
         }
     }
@@ -106,10 +106,10 @@ public class ConcreteKafkaClient implements KafkaClient {
             }
             producer.send(new ProducerRecord<>(kafkaMessage.getTopic(), kafkaMessage.getKey(), record));
             producer.flush();
-            logger.debug("Kafka client write " + kafkaMessage + " to bootstrap " + bootstrapServers);
+            LOGGER.debug("Kafka client write " + kafkaMessage + " to bootstrap " + bootstrapServers);
             //producer.close();
         } catch (Exception e) {
-            logger.error("error writing to topic " + kafkaMessage, e);
+            LOGGER.error("error writing to topic " + kafkaMessage, e);
             throw e;
         }
     }

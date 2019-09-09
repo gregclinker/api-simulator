@@ -5,7 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -24,10 +25,11 @@ import static java.nio.charset.Charset.defaultCharset;
 @Service
 public class SimulatorService {
 
-    Logger logger = LoggerFactory.getLogger(SimulatorService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SimulatorService.class);
     private Map<String, SimulatedHttpRequest> simulatedHttpRequestMap = new HashMap<>();
-    @Autowired
-    private KafkaClient kafkaClient;
+
+    @Value("${server.port:8080}")
+    private Integer port;
 
     /**
      * Set up a simple example simulator
@@ -44,13 +46,13 @@ public class SimulatorService {
             post(IOUtils.toString(inputStream, defaultCharset()));
             inputStream.close();
         } catch (Exception e) {
-            logger.error("error loading definition", e);
+            LOGGER.error("error loading definition", e);
             throw e;
         }
     }
 
     public SimulatedHttpRequest get(String key) {
-        logger.debug("looking up API for key: " + key);
+        LOGGER.debug("looking up API for key: " + key);
         return simulatedHttpRequestMap.get(key);
     }
 
@@ -68,6 +70,9 @@ public class SimulatorService {
 
         simulatedHttpRequestMap = new HashMap<>();
         for (SimulatedHttpRequest simulatedHttpRequest : simulatedHttpRequests) {
+            if (simulatedHttpRequest.getHttpMethod() == HttpMethod.GET) {
+                simulatedHttpRequest.setTryIt("http://localhost:" + port + simulatedHttpRequest.getUrl());
+            }
             simulatedHttpRequestMap.put(simulatedHttpRequest.getKey(), simulatedHttpRequest);
         }
         return simulatedHttpRequests;

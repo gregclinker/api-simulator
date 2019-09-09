@@ -12,11 +12,11 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class ErrorHandler extends ResponseEntityExceptionHandler {
 
-    Logger logger = LoggerFactory.getLogger(ErrorHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ErrorHandler.class);
 
     @ExceptionHandler(value = {Exception.class})
     protected ResponseEntity<String> handleConflict(Exception ex, WebRequest request) {
-        logger.error("error", ex);
+        LOGGER.error("error", ex);
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 @Profile("noKafka")
 public class DummyKafkaClient implements KafkaClient {
 
-    Logger logger = LoggerFactory.getLogger(ConcreteKafkaClient.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConcreteKafkaClient.class);
 
     @Override
     public void write(KafkaMessage kafkaMessage) {
-        logger.debug("dummy Kafka client write " + kafkaMessage);
+        LOGGER.debug("dummy Kafka client write " + kafkaMessage);
     }
 
     @Override

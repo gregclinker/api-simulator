@@ -21,8 +21,6 @@ import static com.essexboy.api.SimulatedHttpRequest.getKey;
 @RestController
 public class SimulatorController {
 
-    Logger logger = LoggerFactory.getLogger(SimulatorController.class);
-
     @Autowired
     private KafkaClient kafkaClient;
 
