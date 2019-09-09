@@ -101,7 +101,7 @@ java -Dspring.profiles.active=noKafka -jar target/api-simulator-1.0.jar
 **To run a specified definition**
 The default simulator definition is taken from the file src/main/resources/simulatorDef.json to specify your own file:
 ```shell script
-java -DDEFINITION_FILE=simulatorDe2.json -jar target/api-simulator-1.0.jar
+java -DDEFINITION_FILE=simulatorDef2.json -jar target/api-simulator-1.0.jar
 ```
 
 **To run with Kafka and an [AVRO Schema](https://avro.apache.org/docs/1.8.2/gettingstartedjava.html)**

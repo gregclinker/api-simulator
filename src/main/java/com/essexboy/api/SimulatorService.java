@@ -25,14 +25,7 @@ import static java.nio.charset.Charset.defaultCharset;
 public class SimulatorService {
 
     Logger logger = LoggerFactory.getLogger(SimulatorService.class);
-
-    enum SystemParameters {
-        DEFINITION_FILE,
-        AVRO_SCHEMA_FILE
-    }
-
     private Map<String, SimulatedHttpRequest> simulatedHttpRequestMap = new HashMap<>();
-
     @Autowired
     private KafkaClient kafkaClient;
 
@@ -40,15 +33,20 @@ public class SimulatorService {
      * Set up a simple example simulator
      */
     @PostConstruct
-    public void init() throws IOException {
-        InputStream inputStream = null;
-        if (getProperty(String.valueOf(SystemParameters.DEFINITION_FILE)) != null) {
-            inputStream = new FileInputStream(new File(System.getProperty(String.valueOf(SystemParameters.DEFINITION_FILE))));
-        } else {
-            inputStream = getClass().getResourceAsStream("/simulatorDef.json");
+    public void init() throws Exception {
+        try {
+            InputStream inputStream = null;
+            if (getProperty(String.valueOf(SystemParameters.DEFINITION_FILE)) != null) {
+                inputStream = new FileInputStream(new File(System.getProperty(String.valueOf(SystemParameters.DEFINITION_FILE))));
+            } else {
+                inputStream = getClass().getResourceAsStream("/simulatorDef.json");
+            }
+            post(IOUtils.toString(inputStream, defaultCharset()));
+            inputStream.close();
+        } catch (Exception e) {
+            logger.error("error loading definition", e);
+            throw e;
         }
-        post(IOUtils.toString(inputStream, defaultCharset()));
-        inputStream.close();
     }
 
     public SimulatedHttpRequest get(String key) {
@@ -73,5 +71,10 @@ public class SimulatorService {
             simulatedHttpRequestMap.put(simulatedHttpRequest.getKey(), simulatedHttpRequest);
         }
         return simulatedHttpRequests;
+    }
+
+    enum SystemParameters {
+        DEFINITION_FILE,
+        AVRO_SCHEMA_FILE
     }
 }

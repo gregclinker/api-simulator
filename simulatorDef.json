@@ -1,13 +1,13 @@
-[
+asdfads
   {
     "httpStatus": "OK",
-    "responseBody": "{\"id\":1,\"name\":\"name\",\"description\":\"description 2\"}",
+    "responseBody": "{\"id\":1,\"name\":\"name\",\"description\":\"description\"}",
     "httpMethod": "GET",
     "url": "/my-api/resource/1"
   },
   {
     "httpStatus": "OK",
-    "responseBody": "{\"id\":2,\"name\":\"name\",\"description\":\"description 2\"}",
+    "responseBody": "{\"id\":2,\"name\":\"name\",\"description\":\"description\"}",
     "httpMethod": "GET",
     "url": "/my-api/resource/2",
     "kafkaMessage": {
@@ -18,8 +18,8 @@
   },
   {
     "httpStatus": "OK",
-    "requestBody": "{\"id\":3,\"name\":\"name\",\"description\":\"description 2\"}",
-    "responseBody": "{\"id\":3,\"name\":\"name\",\"description\":\"description 2\"}",
+    "requestBody": "{\"id\":3,\"name\":\"name\",\"description\":\"description\"}",
+    "responseBody": "{\"id\":3,\"name\":\"name\",\"description\":\"description\"}",
     "httpMethod": "POST",
     "url": "/my-api/resource/3",
     "kafkaMessage": {

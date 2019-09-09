@@ -1,7 +1,6 @@
 package com.essexboy.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +60,4 @@ public class SimulatorController {
         return new ResponseEntity<>(simulatorService.post(request), HttpStatus.OK);
     }
 
-    private String makeExampleResource(Long id, String name, String description) throws JsonProcessingException {
-        return new ObjectMapper().writeValueAsString(new ExampleResource(id, name, description));
-    }
 }
