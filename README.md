@@ -7,11 +7,20 @@ A REST API which can be configured, as an API, with any given request/response b
 **To Build**
 ```shell script
 mvn clean installl
+
+or
+
+./gradlew build
+
 ```
 
 **To run without Kafka integration**
 ```shell script
 java -Dspring.profiles.active=noKafka -jar target/api-simulator-1.0.jar
+
+or
+
+java -Dspring.profiles.active=noKafka -jar build/libs/api-simulator-1.0.jar
 ```
 
 **To get the default simulator set-up** - GET:http://localhost:8080/simulator
