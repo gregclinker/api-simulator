@@ -7,13 +7,19 @@
   },
   {
     "httpStatus": "OK",
+    "responseBody": "{\"id\":1,\"name\":\"name\",\"description\":\"description\"}",
+    "httpMethod": "GET",
+    "url": "/my-api/payment"
+  },
+  {
+    "httpStatus": "OK",
     "responseBody": "{\"id\":2,\"name\":\"name\",\"description\":\"description\"}",
     "httpMethod": "GET",
     "url": "/my-api/resource/2",
     "kafkaMessage": {
-      "schema": "Payment",
-      "topic": "payments-topic",
-      "message": "{\"id\": \"283b4c55-7d54-4fc7-b538-7de0dfdd5931\", \"amount\": \"102\"}"
+      "schema": "payments",
+      "topic": "payments",
+      "message": "{\"id\": 123456789, \"accountId\": \"123456\", \"sortCode\": \"10-11-12\", \"amount\": \"10.13\"}"
     }
   },
   {
@@ -23,9 +29,13 @@
     "httpMethod": "POST",
     "url": "/my-api/resource/3",
     "kafkaMessage": {
-      "schema": "Payment",
-      "topic": "payments-topic",
-      "message": "{\"id\": \"c3337504-c62e-4ba7-b311-a0a0401801ca\", \"amount\": \"102\"}"
+      "schema": "payments",
+      "topic": "payments",
+      "message": "{\"id\": 123456789, \"accountId\": \"123456\", \"sortCode\": \"10-11-12\", \"amount\": \"10.13\"}"
     }
   }
 ]
+
+
+
+

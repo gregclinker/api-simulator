@@ -1,9 +1,10 @@
 package com.essexboy.api;
 
+import io.confluent.kafka.schemaregistry.client.rest.exceptions.RestClientException;
 import org.apache.avro.Schema;
 
-public interface KafkaClient {
-    void write(KafkaMessage kafkaMessage);
+import java.io.IOException;
 
-    Schema getSchema();
+public interface KafkaClient {
+    void write(KafkaMessage kafkaMessage) throws Exception;
 }

@@ -1,0 +1,24 @@
+{
+  "type": "record",
+  "name": "payments",
+  "namespace": "ksql",
+  "fields": [
+    {
+      "name": "id",
+      "type": "long"
+    },
+    {
+      "name": "accountId",
+      "type": "string"
+    },
+    {
+      "name": "sortCode",
+      "type": "string"
+    },
+    {
+      "name": "amount",
+      "type": "double"
+    }
+  ],
+  "connect.name": "ksql.payments"
+}

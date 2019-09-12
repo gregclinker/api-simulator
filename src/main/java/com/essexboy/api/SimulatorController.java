@@ -28,7 +28,7 @@ public class SimulatorController {
     private SimulatorService simulatorService;
 
     @RequestMapping("/**")
-    public ResponseEntity<String> simulate(HttpServletRequest request) throws IOException {
+    public ResponseEntity<String> simulate(HttpServletRequest request) throws Exception {
 
         String key = getKey(request);
         final SimulatedHttpRequest simulatedHttpRequest = simulatorService.get(key);

@@ -16,9 +16,4 @@ public class DummyKafkaClient implements KafkaClient {
     public void write(KafkaMessage kafkaMessage) {
         LOGGER.debug("dummy Kafka client write " + kafkaMessage);
     }
-
-    @Override
-    public Schema getSchema() {
-        return null;
-    }
 }

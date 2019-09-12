@@ -10,6 +10,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -22,6 +23,13 @@ public class SimulatorServiceTest {
     @Test
     public void init() {
         final List<SimulatedHttpRequest> simulatedHttpRequests = simulatorService.get();
-        assertEquals(3, simulatedHttpRequests.size());
+        assertEquals(4, simulatedHttpRequests.size());
+    }
+
+    @Test
+    public void getKSQL() {
+        final SimulatedHttpRequest simulatedHttpRequest = simulatorService.get("GET:/my-api/payment");
+        assertNotNull(simulatedHttpRequest);
+        System.out.println(simulatedHttpRequest);
     }
 }

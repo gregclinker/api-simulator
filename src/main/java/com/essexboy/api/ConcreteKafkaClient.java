@@ -1,6 +1,7 @@
 package com.essexboy.api;
 
 import io.confluent.kafka.schemaregistry.client.CachedSchemaRegistryClient;
+import io.confluent.kafka.schemaregistry.client.SchemaMetadata;
 import io.confluent.kafka.schemaregistry.client.rest.exceptions.RestClientException;
 import io.confluent.kafka.serializers.AbstractKafkaAvroSerDeConfig;
 import io.confluent.kafka.serializers.KafkaAvroSerializer;
@@ -43,7 +44,7 @@ public class ConcreteKafkaClient implements KafkaClient {
     private String schemaRegistryUrl;
 
     private Producer<String, GenericRecord> producer;
-    private Schema schema;
+    private CachedSchemaRegistryClient schemaRegistryClient;
 
     @PostConstruct
     public void init() throws IOException, RestClientException {
@@ -57,29 +58,31 @@ public class ConcreteKafkaClient implements KafkaClient {
         producerProps.put(ProducerConfig.RETRIES_CONFIG, "0");
 
         producer = new KafkaProducer<>(producerProps);
+        schemaRegistryClient = new CachedSchemaRegistryClient(schemaRegistryUrl, 20);
 
-        try {
-            InputStream inputStream = new FileInputStream(new File(System.getProperty(String.valueOf(AVRO_SCHEMA_FILE))));
-            final String schemaJson = IOUtils.toString(inputStream, Charset.defaultCharset());
+        if (System.getProperty(String.valueOf(AVRO_SCHEMA_FILE)) != null) {
+            try {
+                InputStream inputStream = new FileInputStream(new File(System.getProperty(String.valueOf(AVRO_SCHEMA_FILE))));
+                final String schemaJson = IOUtils.toString(inputStream, Charset.defaultCharset());
 
-            schema = new Schema.Parser().parse(schemaJson);
-            CachedSchemaRegistryClient client = new CachedSchemaRegistryClient(schemaRegistryUrl, 20);
-            client.register(this.schema.getName() + "-topic", this.schema);
-        } catch (Exception e) {
-            LOGGER.error("error initializing Kafka", e);
-            throw e;
+                Schema schema = new Schema.Parser().parse(schemaJson);
+                if (getSchema(schema.getName()) == null) {
+                    schemaRegistryClient.register(schema.getName(), schema);
+                }
+            } catch (Exception e) {
+                LOGGER.error("error initializing Kafka", e);
+                throw e;
+            }
         }
     }
 
     @Override
-    public void write(KafkaMessage kafkaMessage) {
+    public void write(KafkaMessage kafkaMessage) throws Exception {
 
         try {
+            final Schema schema = getSchema(kafkaMessage.getSchema());
             if (schema == null) {
                 throw new RuntimeException("no AVRO schema specified, try starting with -Dspring.profiles.active=noKafka, or specify a schema file with -D" + AVRO_SCHEMA_FILE + "=Payment.avsc");
-            }
-            if (!kafkaMessage.getSchema().equals(schema.getName())) {
-                throw new RuntimeException("invalid schema, found " + schema.getName() + ", expected " + kafkaMessage.getSchema());
             }
             JSONObject jsonObject = new JSONObject(kafkaMessage.getMessage());
             GenericData.Record record = new GenericData.Record(schema);
@@ -114,8 +117,12 @@ public class ConcreteKafkaClient implements KafkaClient {
         }
     }
 
-    @Override
-    public Schema getSchema() {
-        return schema;
+    private Schema getSchema(String schemaName) throws IOException, RestClientException {
+        if (!schemaRegistryClient.getAllSubjects().contains(schemaName)) {
+            return null;
+        }
+        final SchemaMetadata latestSchemaMetadata = schemaRegistryClient.getLatestSchemaMetadata(schemaName);
+        return schemaRegistryClient.getByID(latestSchemaMetadata.getId());
     }
+
 }

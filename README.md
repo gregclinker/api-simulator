@@ -34,8 +34,8 @@ java -Dspring.profiles.active=noKafka -jar build/libs/api-simulator-1.0.jar
     "httpMethod": "POST",
     "url": "/my-api/resource/3",
     "kafkaMessage": {
-      "schema": "Payment",
-      "topic": "payments-topic",
+      "schema": "payments",
+      "topic": "payments",
       "message": "{\"id\": \"6c5fb721-1616-47bf-a533-96f5f80d1299\", \"amount\": \"102\"}"
     }
   },
@@ -45,8 +45,8 @@ java -Dspring.profiles.active=noKafka -jar build/libs/api-simulator-1.0.jar
     "httpMethod": "GET",
     "url": "/my-api/resource/2",
     "kafkaMessage": {
-      "schema": "Payment",
-      "topic": "payments-topic",
+      "schema": "payments",
+      "topic": "payments",
       "message": "{\"id\": \"3210722b-e782-4c81-9e5a-ff8d2e96940e\", \"amount\": \"102\"}"
     },
     "tryIt": "http://localhost:8080/my-api/resource/2"
@@ -87,8 +87,8 @@ java -Dspring.profiles.active=noKafka -jar build/libs/api-simulator-1.0.jar
     "httpMethod": "GET",
     "url": "/my-api/resource/4",
     "kafkaMessage": {
-      "schema": "Payment",
-      "topic": "payments-topic",
+      "schema": "payments",
+      "topic": "payments",
       "message": "{\"id\": \"c0fe74ee-a948-49a5-b901-f189f66c659e\", \"amount\": \"102\"}"
     }
   },
@@ -99,8 +99,8 @@ java -Dspring.profiles.active=noKafka -jar build/libs/api-simulator-1.0.jar
     "httpMethod": "POST",
     "url": "/my-api/resource/5",
     "kafkaMessage": {
-      "schema": "Payment",
-      "topic": "payments-topic",
+      "schema": "payments",
+      "topic": "payments",
       "message": "{\"id\": \"4a7ac8c7-9c30-45a2-8277-b026fc99bf44\", \"amount\": \"102\"}"
     }
   }
@@ -114,8 +114,10 @@ java -DDEFINITION_FILE=simulatorDef2.json -jar target/api-simulator-1.0.jar
 ```
 
 **To run with Kafka and an [AVRO Schema](https://avro.apache.org/docs/1.8.2/gettingstartedjava.html)**
+
+The schema will be ignored if it already exists in the registry.
 ```shell script
-java -DAVRO_SCHEMA_FILE=target/test-classes/Payment.avsc -jar target/api-simulator-1.0.jar
+java -DAVRO_SCHEMA_FILE=target/test-classes/payment.avsc -jar target/api-simulator-1.0.jar
 ```
 
 Default config for Kafka is set in the Spring Boot application.properties
